@@ -48,7 +48,7 @@ public class Decryption {
         System.out.println("Please enter your secret key:");
         String key = scanner.nextLine();
 
-        System.out.println("Decrypted text: " + decrypt(cipherText, key));
+        System.out.println("Decrypted text: \n" + decrypt(cipherText, key));
 
         scanner.close();
 

@@ -1,6 +1,8 @@
+
 import java.util.*;
 
 public class CrackWithKeyLen {
+
     private static final double[] ENGLISH_FREQ = {
         8.167, 1.492, 2.782, 4.253, 12.702, 2.228,
         2.015, 6.094, 6.966, 0.153, 0.772, 4.025,
@@ -11,7 +13,7 @@ public class CrackWithKeyLen {
 
     protected static String[] divideEncryptedText(String text, int keyLen) {
         String[] groups = new String[keyLen];
-        Arrays.fill(groups, "");  
+        Arrays.fill(groups, "");
 
         for (int i = 0; i < text.length(); i++) {
             groups[i % keyLen] += text.charAt(i);
@@ -48,26 +50,26 @@ public class CrackWithKeyLen {
     private static double calculateFrequencyMatchScore(String text) {
         int[] letterCounts = new int[26];
         int totalLetters = 0;
-    
+
         for (char c : text.toCharArray()) {
             if (Character.isLetter(c)) {
-                char upperChar = Character.toUpperCase(c); 
+                char upperChar = Character.toUpperCase(c);
                 int letterIndex = upperChar - 'A';
-                letterCounts[letterIndex]++;      
-                totalLetters++;        
+                letterCounts[letterIndex]++;
+                totalLetters++;
             }
         }
-    
+
         double matchScore = 0.0;
         for (int i = 0; i < 26; i++) {
             double observedFreq = (double) letterCounts[i] / totalLetters * 100;
             double expectedFreq = ENGLISH_FREQ[i];
-            matchScore += Math.abs(observedFreq - expectedFreq); 
+            matchScore += Math.abs(observedFreq - expectedFreq);
         }
-    
+
         return matchScore;
     }
-    
+
     protected static String reinsertSpecialCharacters(String originalCipherText, String decryptedText) {
         StringBuilder result = new StringBuilder();
         int decryptedIndex = 0;
@@ -91,14 +93,13 @@ public class CrackWithKeyLen {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please enter the encrypted text(<150 characters for optimal performance):");
-        String originalCipherText = scanner.nextLine(); 
+        String originalCipherText = scanner.nextLine();
 
-        String cipherText = originalCipherText.replaceAll("[^A-Za-z]", ""); 
+        String cipherText = originalCipherText.replaceAll("[^A-Za-z]", "");
 
         System.out.println("Please enter the key length:");
         int keyLen = scanner.nextInt();
-        scanner.nextLine(); 
-
+        scanner.nextLine();
 
         String[] groups = divideEncryptedText(cipherText, keyLen);
 
@@ -113,7 +114,7 @@ public class CrackWithKeyLen {
         String decryptedText = Decryption.decrypt(cipherText, keyStr);
 
         String formattedPlainText = reinsertSpecialCharacters(originalCipherText, decryptedText);
-        System.out.println("Decrypted text: " + formattedPlainText);
+        System.out.println("Decrypted text: \n" + formattedPlainText);
 
         scanner.close();
     }

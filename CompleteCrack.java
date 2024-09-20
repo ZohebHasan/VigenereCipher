@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class CompleteCrack {
@@ -10,7 +11,6 @@ public class CompleteCrack {
             letterCount.put(c, letterCount.getOrDefault(c, 0) + 1);
         }
 
-        
         double indexCoincidence = 0.0;
         for (int count : letterCount.values()) {
             indexCoincidence += count * (count - 1);
@@ -48,15 +48,13 @@ public class CompleteCrack {
         return bestKeyLength;
     }
 
-
     public static void main(String[] args) {
         Scanner stdin = new Scanner(System.in);
-    
 
         System.out.println("Enter your encrypted text: ");
-        String originalEncryptedText = stdin.nextLine(); 
+        String originalEncryptedText = stdin.nextLine();
 
-        String encryptedText = originalEncryptedText.replaceAll("[^A-Za-z]", ""); 
+        String encryptedText = originalEncryptedText.replaceAll("[^A-Za-z]", "");
 
         System.out.println("Loading..");
 
@@ -73,13 +71,10 @@ public class CompleteCrack {
         String keyStr = new String(key);
         System.out.println("Discovered key: " + keyStr);
 
-
         String decryptedText = Decryption.decrypt(encryptedText, keyStr);
 
-
-
         String formattedPlainText = CrackWithKeyLen.reinsertSpecialCharacters(originalEncryptedText, decryptedText);
-        System.out.println("Decrypted text: " + formattedPlainText);
+        System.out.println("Decrypted text: \n" + formattedPlainText);
 
         stdin.close();
     }

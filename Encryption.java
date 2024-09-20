@@ -49,7 +49,7 @@ public class Encryption {
         System.out.println("Please enter your secret key:");
         String key = scanner.nextLine();
 
-        System.out.println("Encrypted text: " + encrypt(plainText, key));
+        System.out.println("Encrypted text: \n" + encrypt(plainText, key));
 
         scanner.close();
 
