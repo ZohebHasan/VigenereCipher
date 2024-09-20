@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Crack {
+public class CrackWithKeyLen {
     private static final double[] ENGLISH_FREQ = {
         8.167, 1.492, 2.782, 4.253, 12.702, 2.228,
         2.015, 6.094, 6.966, 0.153, 0.772, 4.025,
@@ -9,7 +9,7 @@ public class Crack {
         1.974, 0.074
     };
 
-    private static String[] divideEncryptedText(String text, int keyLen) {
+    protected static String[] divideEncryptedText(String text, int keyLen) {
         String[] groups = new String[keyLen];
         Arrays.fill(groups, "");  
 
@@ -19,7 +19,7 @@ public class Crack {
         return groups;
     }
 
-    private static char findKeyCharByFrequency(String group) {
+    protected static char findKeyCharByFrequency(String group) {
         double bestMatch = Double.MAX_VALUE;
         int bestShift = 0;
 
@@ -67,34 +67,8 @@ public class Crack {
     
         return matchScore;
     }
-
-    private static String decrypt(String cipherText, String key) {
-        StringBuilder plainText = new StringBuilder();
-        key = key.toUpperCase();
-
-        for (int i = 0, j = 0; i < cipherText.length(); i++) {
-            char currCipherChar = cipherText.charAt(i);
-
-            if (Character.isLetter(currCipherChar)) {
-                char currKeyChar = key.charAt(j % key.length());
-                int shift = currKeyChar - 'A';
-
-                char base = Character.isUpperCase(currCipherChar) ? 'A' : 'a';
-                int decryptedChar = ((currCipherChar - base - shift + 26) % 26) + base;
-                plainText.append((char) decryptedChar);
-
-                j++;
-            } else {
-                plainText.append(currCipherChar);  
-            }
-        }
-
-        return plainText.toString();
-
-    }
-
     
-    private static String reinsertSpecialCharacters(String originalCipherText, String decryptedText) {
+    protected static String reinsertSpecialCharacters(String originalCipherText, String decryptedText) {
         StringBuilder result = new StringBuilder();
         int decryptedIndex = 0;
 
@@ -113,6 +87,7 @@ public class Crack {
     }
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please enter the encrypted text(<150 characters for optimal performance):");
@@ -135,7 +110,7 @@ public class Crack {
         String keyStr = new String(key);
         System.out.println("Discovered key: " + keyStr);
 
-        String decryptedText = decrypt(cipherText, keyStr);
+        String decryptedText = Decryption.decrypt(cipherText, keyStr);
 
         String formattedPlainText = reinsertSpecialCharacters(originalCipherText, decryptedText);
         System.out.println("Decrypted text: " + formattedPlainText);

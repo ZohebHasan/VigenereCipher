@@ -40,6 +40,7 @@ public class Decryption {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+     
 
         System.out.println("Please enter the encrypted text:");
         String cipherText = scanner.nextLine();
